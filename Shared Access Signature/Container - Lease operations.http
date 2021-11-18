@@ -1,0 +1,54 @@
+###
+### Variables are defined as environment-variables in settings.json
+### Select environment "testing" in the lower right corner of VS Code
+###
+### Request 1: Acquire Lease
+### Request 2: Renew Lease
+### Request 3: Change Lease (propose new lease-id)
+### Request 4: Release Lease (based on lease-id from Step1)
+### Request 5: Release Lease (based on lease-id from Step3)
+### Request 6: Break Lease
+
+@proposedLeaseId = {{$guid}}
+
+### Lease Container (acquire)
+# @name leaseContainerAcquire
+PUT {{baseUrl}}/{{sampleContainerName1}}?comp=lease&restype=container&{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
+x-ms-lease-action: acquire
+x-ms-lease-duration: 20
+
+### Lease Container (renew)
+# @name leaseContainerRenew
+PUT {{baseUrl}}/{{sampleContainerName1}}?comp=lease&restype=container&{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
+x-ms-lease-action: renew
+x-ms-lease-id: {{leaseContainerAcquire.response.headers.x-ms-lease-id}}
+
+### Lease Container (change)
+# @name leaseContainerChange
+PUT {{baseUrl}}/{{sampleContainerName1}}?comp=lease&restype=container&{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
+x-ms-lease-action: change
+x-ms-lease-id: {{leaseContainerAcquire.response.headers.x-ms-lease-id}}
+x-ms-proposed-lease-id: {{proposedLeaseId}}
+
+### Lease Container (release) (based on leaseContainerAcquire)
+# @name leaseContainerRelease
+PUT {{baseUrl}}/{{sampleContainerName1}}?comp=lease&restype=container&{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
+x-ms-lease-action: release
+x-ms-lease-id: {{leaseContainerAcquire.response.headers.x-ms-lease-id}}
+
+### Lease Container (release) (based on leaseContainerChange)
+# @name leaseContainerRelease
+PUT {{baseUrl}}/{{sampleContainerName1}}?comp=lease&restype=container&{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
+x-ms-lease-action: release
+x-ms-lease-id: {{leaseContainerChange.response.headers.x-ms-lease-id}}
+
+### Lease Container (break)
+# @name leaseContainerBreak
+PUT {{baseUrl}}/{{sampleContainerName1}}?comp=lease&restype=container&{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
+x-ms-lease-action: break

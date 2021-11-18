@@ -1,0 +1,14 @@
+###
+### Variables are defined as environment-variables in settings.json
+### Select environment "testing" in the lower right corner of VS Code
+###
+### Request 1: Create Container
+### Request 2: List Containers
+
+### Create Container
+PUT {{baseUrl}}/{{sampleContainerName1}}?restype=container&{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
+
+### List Containers
+GET {{baseUrl}}?comp=list&{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}

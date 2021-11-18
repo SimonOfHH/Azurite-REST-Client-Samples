@@ -1,0 +1,41 @@
+###
+### Variables are defined as environment-variables in settings.json
+### Select environment "testing" in the lower right corner of VS Code
+###
+### Request 1-3: Add some samples files (from directory "Sample Files") to Azurite
+### Request 4:   List Blobs in container
+###
+
+### Put Blob 1
+PUT {{baseUrl}}/{{sampleContainerName1}}/test0001.txt?{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
+x-ms-version: 2019-02-02
+x-ms-blob-type: BlockBlob
+Content-Length: 3920
+Content-Type: text/plain
+
+< ././Sample Files/test0001.txt
+
+### Put Blob 2
+PUT {{baseUrl}}/{{sampleContainerName1}}/test0002.txt?{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
+x-ms-version: 2019-02-02
+x-ms-blob-type: BlockBlob
+Content-Length: 3920
+Content-Type: text/plain
+
+< ././Sample Files/test0002.txt
+
+### Put Blob 3
+PUT {{baseUrl}}/{{sampleContainerName1}}/test0003.txt?{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
+x-ms-version: 2019-02-02
+x-ms-blob-type: BlockBlob
+Content-Length: 3920
+Content-Type: text/plain
+
+< ././Sample Files/test0003.txt
+
+### List Blobs
+GET {{baseUrl}}/{{sampleContainerName1}}?restype=container&comp=list&{{sasToken}} HTTP/1.1
+x-ms-date: {{$datetime iso8601}}
